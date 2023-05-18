@@ -1,5 +1,31 @@
 $(document).ready(function(){
 	/*******************************************
+		관리자 공지사항 - 등록폼
+	********************************************/
+	$("#btnNoticeWrite").click(function(){
+		if($("#ntitle").val()==""){
+			alert("제목을 입력해주세요");
+			$("#ntitle").focus();
+			return false;
+		} else {
+			writeForm.submit();
+		}
+	});
+	
+	/*******************************************
+		관리자 공지사항 - 수정폼
+	********************************************/
+	$("#btnNoticeUpdate").click(function(){
+		if($("#ntitle").val()==""){
+			alert("제목을 입력해주세요");
+			$("#ntitle").focus();
+			return false;
+		} else {
+			updateForm.submit();
+		}
+	});
+	
+	/*******************************************
 		게시판 - 수정폼
 	********************************************/
 	$("#btnBoardUpdate").click(function(){

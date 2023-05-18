@@ -20,28 +20,27 @@
 			<table class="notice_content">
 				<tr>
 					<th>제목</th>
-					<td>CGV 공지사항 입니다.</td>
+					<td>${noticeVo.ntitle}</td>
 				</tr>
 				<tr>
 					<th>내용</th>
 					<td>
-						2023년 4월 기준 전체 시스템 점검 예정입니다.<br>
-						참고해주세요.
+						${noticeVo.ncontent}
 					</td>
 				</tr>
 				<tr>
 					<th>조회수</th>
-					<td>1000</td>
+					<td>${noticeVo.nhits}</td>
 				</tr>
 				<tr>
 					<th>작성일자</th>
-					<td>2023-04-18</td>
+					<td>${noticeVo.ndate}</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<a href="notice_list.jsp">
+						<a href="notice_list.do">
 							<button type="button" class="btn_style">리스트</button></a>
-						<a href="http://localhost:9000/mycgv_jsp/index.jsp">
+						<a href="http://localhost:9000/mycgv_jsp/index.do">
 						<button type="button" class="btn_style">홈으로</button></a>
 					</td>
 				</tr>

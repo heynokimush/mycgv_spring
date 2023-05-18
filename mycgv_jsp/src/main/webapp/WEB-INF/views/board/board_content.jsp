@@ -41,13 +41,13 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<a href="board_update.jsp?bid=${bvo.bid}">
+						<a href="board_update.do?bid=${bvo.bid}">
 							<button type="button" class="btn_style">수정하기</button></a>
-						<a href="board_delete.jsp?bid=${bvo.bid}">
+						<a href="board_delete.do?bid=${bvo.bid}">
 							<button type="button" class="btn_style">삭제하기</button></a>
-						<a href="board_list.jsp">
+						<a href="board_list.do">
 							<button type="button" class="btn_style">리스트</button></a>
-						<a href="http://localhost:9000/mycgv_jsp/index.jsp">
+						<a href="http://localhost:9000/mycgv_jsp/index.do">
 						<button type="button" class="btn_style">홈으로</button></a>
 					</td>
 				</tr>

@@ -19,7 +19,7 @@
 			<table class="board_list">
 				<tr>
 					<td colspan="5">
-						<a href="board_write.jsp">
+						<a href="board_write.do">
 							<button type="button" class="btn_style2">글쓰기</button>
 						</a>
 					</td>

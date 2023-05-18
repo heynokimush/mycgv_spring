@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,66 +25,14 @@
 					<th>조회수</th>
 					<th>작성일자</th>
 				</tr>
-				<tr>
-					<td>1</td>
-					<td><a href="notice_content.jsp">CGV 공지사항 입니다.</a></td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>4월 26일 CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>4</td>
-					<td>CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>5</td>
-					<td>CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>6</td>
-					<td>CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>8</td>
-					<td>CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>9</td>
-					<td>CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
-				<tr>
-					<td>10</td>
-					<td>CGV 공지사항 입니다.</td>
-					<td>1000</td>
-					<td>2023-04-18</td>
-				</tr>
+				<c:forEach var="noticeVo" items="${list}">
+					<tr>
+						<td>${noticeVo.rno}</td>
+						<td><a href="notice_content.do?nid=${noticeVo.nid}">${noticeVo.ntitle}</a></td>
+						<td>${noticeVo.nhits}</td>
+						<td>${noticeVo.ndate}</td>
+					</tr>
+				</c:forEach>
 				<tr>
 					<td colspan="4"><< 1  2  3  4  5 >></td>
 				</tr>

@@ -34,9 +34,9 @@
 		<section class="admin">
 			<h1 class="title">관리자 메인</h1>
 			<div>
-				<article><a href="notice/admin_notice_list.jsp">🛕 공지사항 관리</a></article>
+				<article><a href="admin_notice_list.do">🛕 공지사항 관리</a></article>
 				<article>🚗영화 관리</article>
-				<article><a href="member/admin_member_list.jsp">👩회원 관리</a></article>
+				<article><a href="admin_member_list.do">👩회원 관리</a></article>
 			</div>
 		</section>
 	</div>
