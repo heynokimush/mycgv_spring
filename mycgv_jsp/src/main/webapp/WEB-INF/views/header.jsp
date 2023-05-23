@@ -32,6 +32,7 @@
 					<li><a href="#">고객센터</a></li>
 					<li><a href="http://localhost:9000/mycgv_jsp/notice_list.do">공지사항</a></li>
 					<li><a href="http://localhost:9000/mycgv_jsp/board_list.do">게시판</a></li>
+					<li><a href="http://localhost:9000/mycgv_jsp/board_list_json.do">게시판(JSON)</a></li>
 					<li><a href="http://localhost:9000/mycgv_jsp/admin_index.do">ADMIN</a></li>
 				</ul>
 			</nav>

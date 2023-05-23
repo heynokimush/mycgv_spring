@@ -2,6 +2,7 @@ package com.mycgv_jsp.dao;
 
 import java.util.ArrayList;
 
+import com.mycgv_jsp.vo.BoardVo;
 import com.mycgv_jsp.vo.NoticeVo;
 
 public class NoticeDao extends DBConn {
@@ -20,6 +21,43 @@ public class NoticeDao extends DBConn {
 			
 			while(rs.next()) {
 				NoticeVo noticeVo = new NoticeVo();
+				noticeVo.setRno(rs.getInt(1));
+				noticeVo.setNid(rs.getString(2));
+				noticeVo.setNtitle(rs.getString(3));
+				noticeVo.setNcontent(rs.getString(4));
+				noticeVo.setNhits(rs.getInt(5));
+				noticeVo.setNdate(rs.getString(6));
+				
+				list.add(noticeVo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * select - 게시글 전체 리스트 -> 페이징
+	 */
+	public ArrayList<NoticeVo> select(int startCount, int endCount) {
+		ArrayList<NoticeVo> list = new ArrayList<NoticeVo>();
+		
+		String sql = "select rno, nid,ntitle,ncontent,nhits,ndate"
+				+ " from (select rownum rno,nid,ntitle,ncontent,nhits,to_char(ndate,'yyyy-mm-dd') ndate\r\n"  
+				+ " from (select nid,ntitle,ncontent,nhits,ndate from mycgv_notice\r\n"  
+				+ "          order by ndate desc))"
+				+ " where rno between ? and ?";
+		getPreparedStatement(sql);
+		
+		try {
+			pstmt.setInt(1, startCount);
+			pstmt.setInt(2, endCount);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				NoticeVo noticeVo = new NoticeVo();
+				
 				noticeVo.setRno(rs.getInt(1));
 				noticeVo.setNid(rs.getString(2));
 				noticeVo.setNtitle(rs.getString(3));
@@ -150,4 +188,25 @@ public class NoticeDao extends DBConn {
 		
 		return result;
 	}
+	
+	/**
+	 * 전체 카운트 가져오기
+	 */
+	public int totalRowCount() {
+			int count = 0;
+			String sql = "select count(*) from mycgv_notice";
+			getPreparedStatement(sql);
+			
+			try {
+				rs = pstmt.executeQuery();
+				while(rs.next()) {				
+					count = rs.getInt(1);
+				}			
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return count;		
+		}	
 }

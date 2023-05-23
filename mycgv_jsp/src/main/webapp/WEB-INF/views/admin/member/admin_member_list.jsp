@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--     
 <%@ page import = "com.mycgv_jsp.dao.MemberDao" %>
 <%@ page import = "com.mycgv_jsp.vo.MemberVo" %>
 <%@ page import = "java.util.ArrayList" %>
@@ -20,7 +21,7 @@
 		} else {
 			MemberDao memberDao = new MemberDao();
 			ArrayList<MemberVo> list = memberDao.select();
-%>
+%> --%>
     
 <!DOCTYPE html>
 <html>
@@ -47,15 +48,15 @@
 					<th>가입일자</th>
 					<th>회원등급</th>
 				</tr>
-				<% for(MemberVo memberVo : list) {%>
-				<tr>
-					<td><%= memberVo.getRno() %></td>
-					<td><%= memberVo.getId() %></td>
-					<td><%= memberVo.getName() %></td>
-					<td><%= memberVo.getMdate() %></td>
-					<td><%= memberVo.getGrade() %></td>
-				</tr>
-				<% } %>
+				<c:forEach var="memberVo" items="${list}">
+					<tr>
+						<td>${memberVo.rno}</td>
+						<td>${memberVo.id}</td>
+						<td>${memberVo.name}</td>
+						<td>${memberVo.mdate}</td>
+						<td>${memberVo.grade}</td>
+					</tr>
+				</c:forEach>
 				<tr>
 					<td colspan="5"><< 1  2  3  4  5 >></td>
 				</tr>
@@ -69,9 +70,9 @@
 	<jsp:include page="../../footer.jsp"></jsp:include>
 </body>
 </html>
-<% 		}//admin check
+<%-- <% 		}//admin check
 	}//null check		
-%>
+%> --%>
 
 
 

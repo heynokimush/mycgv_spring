@@ -61,6 +61,43 @@ public class BoardDao extends DBConn {
 		
 		return list;
 	}
+	/**
+	 * select - 게시글 전체 리스트 -> 페이징
+	 */
+	public ArrayList<BoardVo> select(int startCount, int endCount) {
+		ArrayList<BoardVo> list = new ArrayList<BoardVo>();
+		
+		String sql = "select rno, bid, btitle, bcontent, bhits, id, bdate"
+				+ " from (select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd') bdate\r\n"  
+				+ " from (select bid, btitle, bcontent, bhits, id, bdate from mycgv_board\r\n"  
+				+ "          order by bdate desc))"
+				+ " where rno between ? and ?";
+		getPreparedStatement(sql);
+		
+		try {
+			pstmt.setInt(1, startCount);
+			pstmt.setInt(2, endCount);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardVo boardVo = new BoardVo();
+				
+				boardVo.setRno(rs.getInt(1));
+				boardVo.setBid(rs.getString(2));
+				boardVo.setBtitle(rs.getString(3));
+				boardVo.setBcontent(rs.getString(4));
+				boardVo.setBhits(rs.getInt(5));
+				boardVo.setId(rs.getString(6));
+				boardVo.setBdate(rs.getString(7));
+				
+				list.add(boardVo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 	
 	/**
 	 * select - 게시글 상세
@@ -152,4 +189,25 @@ public class BoardDao extends DBConn {
 		
 		return result;
 	}
+	
+	/**
+	 * 전체 카운트 가져오기
+	 */
+	public int totalRowCount() {
+			int count = 0;
+			String sql = "select count(*) from mycgv_board";
+			getPreparedStatement(sql);
+			
+			try {
+				rs = pstmt.executeQuery();
+				while(rs.next()) {				
+					count = rs.getInt(1);
+				}			
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return count;		
+		}	
 }
