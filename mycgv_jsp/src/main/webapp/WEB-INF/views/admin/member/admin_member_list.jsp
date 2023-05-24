@@ -29,6 +29,35 @@
 <meta charset="UTF-8">
 <title>MYCGV</title>
 <link rel="stylesheet" href="http://localhost:9000/mycgv_jsp/css/mycgv_jsp.css">
+<link rel="stylesheet" href="http://localhost:9000/mycgv_jsp/css/am-pagination.css">
+<script src="http://localhost:9000/mycgv_jsp/js/jquery-3.6.4.min.js"></script>
+<script src="http://localhost:9000/mycgv_jsp/js/mycgv_jsp_jquery.js"></script>
+<script src="http://localhost:9000/mycgv_jsp/js/am-pagination.js"></script>
+<script>
+	$(document).ready(function(){
+		var pager = jQuery('#ampaginationsm').pagination({
+		
+		    maxSize: '${maxSize}',	    		// max page size
+		    totals: '${totals}',	// total pages	
+		    page: '${page}',		// initial page		
+		    pageSize: '${pageSize}',			// max number items per page
+		
+		    // custom labels		
+		    lastText: '&raquo;&raquo;', 		
+		    firstText: '&laquo;&laquo;',		
+		    prevText: '&laquo;',		
+		    nextText: '&raquo;',
+				     
+		    btnSize:'sm'	// 'sm'  or 'lg'		
+		});
+		
+		jQuery('#ampaginationsm').on('am.pagination.change',function(e){
+			   jQuery('.showlabelsm').text('The selected page no: '+e.page);
+	           $(location).attr('href', "http://localhost:9000/mycgv_jsp/admin_member_list.do?page="+e.page);         
+	    });
+		
+ 	});
+</script> 
 </head>
 <body>
 	<!-- header -->
@@ -58,7 +87,7 @@
 					</tr>
 				</c:forEach>
 				<tr>
-					<td colspan="5"><< 1  2  3  4  5 >></td>
+					<td colspan="5"><div id="ampaginationsm"></div></td>
 				</tr>
 			</table>
 		</section>

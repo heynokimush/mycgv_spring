@@ -11,8 +11,9 @@
 <script src="http://localhost:9000/mycgv_jsp/js/jquery-3.6.4.min.js"></script>
 <script src="http://localhost:9000/mycgv_jsp/js/mycgv_jsp_jquery.js"></script>
 <script src="http://localhost:9000/mycgv_jsp/js/am-pagination.js"></script>
+<script src="http://localhost:9000/mycgv_jsp/js/mycgv_board_list.js"></script>
 <script>
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 		var pager = jQuery('#ampaginationsm').pagination({
 		
 		    maxSize: '${maxSize}',	    		// max page size
@@ -31,10 +32,10 @@
 		
 		jQuery('#ampaginationsm').on('am.pagination.change',function(e){
 			   jQuery('.showlabelsm').text('The selected page no: '+e.page);
-	           $(location).attr('href', "http://localhost:9000/mycgv_jsp/board_list.do?page="+e.page);         
+	           $(location).attr('href', "http://localhost:9000/mycgv_jsp/board_list_json.do?page="+e.page);         
 	    });
 		
- 	});
+ 	}); */
 </script> 
 </head>
 <body>
@@ -45,7 +46,7 @@
 	<div class="content">
 		<section class="board">
 			<h1 class="title">게시판</h1>
-			<table class="board_list">
+			<%-- <table class="board_list">
 				<tr>
 					<td colspan="5">
 						<a href="board_write.do">
@@ -72,7 +73,7 @@
 				<tr>
 					<td colspan="5"><div id="ampaginationsm"></div></td>
 				</tr>
-			</table>
+			</table> --%>
 		</section>
 	</div>
 	
