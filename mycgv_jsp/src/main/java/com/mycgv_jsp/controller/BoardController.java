@@ -1,6 +1,7 @@
 package com.mycgv_jsp.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,13 +15,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mycgv_jsp.dao.BoardDao;
 import com.mycgv_jsp.service.BoardService;
+import com.mycgv_jsp.service.PageServiceImpl;
 import com.mycgv_jsp.vo.BoardVo;
+import com.mycgv_jsp.vo.NoticeVo;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private PageServiceImpl pageService;
 	
 	/**
 	 * header 게시판(json) 호출되는 주소
@@ -37,32 +43,9 @@ public class BoardController {
 	@RequestMapping(value="/board_list_json_data.do",method=RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String board_list_json_data(String page) {
-		//페이징 처리 - startCount, endCount 구하기
-		int startCount = 0;
-		int endCount = 0;
-		int pageSize = 5;	//한페이지당 게시물 수
-		int reqPage = 1;	//요청페이지	
-		int pageCount = 1;	//전체 페이지 수
-		int dbCount = boardService.getCount();	//DB에서 가져온 전체 행수
+		Map<String, Integer> param = pageService.getPageResult(page, "board");
 		
-		//총 페이지 수 계산
-		if(dbCount % pageSize == 0){
-			pageCount = dbCount/pageSize;
-		}else{
-			pageCount = dbCount/pageSize+1;
-		}
-
-		//요청 페이지 계산
-		if(page != null){
-			reqPage = Integer.parseInt(page);
-			startCount = (reqPage-1) * pageSize+1; 
-			endCount = reqPage *pageSize;
-		}else{
-			startCount = 1;
-			endCount = pageSize;
-		}
-		
-		ArrayList<BoardVo> list = boardService.getSelect(startCount, endCount);
+		ArrayList<BoardVo> list = boardService.getSelect(param.get("startCount"), param.get("endCount"));
 		
 		//list 객체의 데이터를 JSON 형태로 생성
 		JsonObject jlist = new JsonObject();
@@ -81,10 +64,10 @@ public class BoardController {
 		}
 		
 		jlist.add("jlist", jarray);
-		jlist.addProperty("totals", dbCount);
-		jlist.addProperty("pageSize", pageSize);
-		jlist.addProperty("maxSize", pageCount);
-		jlist.addProperty("page", reqPage);
+		jlist.addProperty("totals", param.get("totals"));
+		jlist.addProperty("pageSize", param.get("pageSize"));
+		jlist.addProperty("maxSize", param.get("maxSize"));
+		jlist.addProperty("page", param.get("page"));
 		
 		return new Gson().toJson(jlist); //json의 모습이지만 string으로 넘겨주는 방식
 	}
@@ -97,38 +80,13 @@ public class BoardController {
 	public ModelAndView board_list(String page) {
 		ModelAndView model = new ModelAndView();	
 		
-		//페이징 처리 - startCount, endCount 구하기
-		int startCount = 0;
-		int endCount = 0;
-		int pageSize = 5;	//한페이지당 게시물 수
-		int reqPage = 1;	//요청페이지	
-		int pageCount = 1;	//전체 페이지 수
-		int dbCount = boardService.getCount();	//DB에서 가져온 전체 행수
+		Map<String,Integer> param = pageService.getPageResult(page, "board");
 		
-		//총 페이지 수 계산
-		if(dbCount % pageSize == 0){
-			pageCount = dbCount/pageSize;
-		}else{
-			pageCount = dbCount/pageSize+1;
-		}
-
-		//요청 페이지 계산
-		if(page != null){
-			reqPage = Integer.parseInt(page);
-			startCount = (reqPage-1) * pageSize+1; 
-			endCount = reqPage *pageSize;
-		}else{
-			startCount = 1;
-			endCount = pageSize;
-		}
-		
-		ArrayList<BoardVo> list = boardService.getSelect(startCount, endCount);
-	
-		model.addObject("list", list);
-		model.addObject("totals", dbCount);
-		model.addObject("pageSize", pageSize);
-		model.addObject("maxSize", pageCount);
-		model.addObject("page", reqPage);
+		model.addObject("list", boardService.getSelect(param.get("startCount"), param.get("endCount")));
+		model.addObject("totals", param.get("totals"));
+		model.addObject("pageSize", param.get("pageSize"));
+		model.addObject("maxSize", param.get("maxSize"));
+		model.addObject("page", param.get("page"));
 		
 		model.setViewName("/board/board_list");
 		
@@ -186,9 +144,8 @@ public class BoardController {
 	@RequestMapping(value="/board_update.do",method=RequestMethod.GET)
 	public ModelAndView board_update(String bid) {
 		ModelAndView model = new ModelAndView();
-		BoardVo boardVo = boardService.getSelect(bid);
 		
-		model.addObject("boardVo",boardVo);
+		model.addObject("boardVo",boardService.getSelect(bid));
 		model.setViewName("/board/board_update");
 		
 		return model;
@@ -200,8 +157,10 @@ public class BoardController {
 	@RequestMapping(value="/board_delete.do",method=RequestMethod.GET)
 	public ModelAndView board_delete(String bid) {
 		ModelAndView model = new ModelAndView();
+		
 		model.addObject("bid", bid);
 		model.setViewName("/board/board_delete");
+		
 		return model;
 	}
 	
@@ -212,9 +171,7 @@ public class BoardController {
 	public String board_update_proc(BoardVo boardVo) {
 		String viewName = "";
 		
-		int result = boardService.getUpdate(boardVo);
-		
-		if(result == 1) {
+		if(boardService.getUpdate(boardVo) == 1) {
 			viewName = "redirect:/board_list.do";
 		} else {
 			//에러페이지 호출
@@ -230,9 +187,7 @@ public class BoardController {
 	public String board_delete_proc(String bid) {
 		String viewName = "";
 		
-		int result = boardService.getDelete(bid);
-		
-		if(result == 1) {
+		if(boardService.getDelete(bid) == 1) {
 			viewName = "redirect:/board_list.do";
 		} else {
 			//에러페이지 호출

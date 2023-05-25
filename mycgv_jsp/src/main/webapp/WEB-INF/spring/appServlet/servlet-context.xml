@@ -27,6 +27,7 @@
 	<beans:bean id="memberService" class="com.mycgv_jsp.service.MemberServiceImpl"></beans:bean>
 	<beans:bean id="boardService" class="com.mycgv_jsp.service.BoardServiceImpl"></beans:bean>
 	<beans:bean id="noticeService" class="com.mycgv_jsp.service.NoticeServiceImpl"></beans:bean>
+	<beans:bean id="pageService" class="com.mycgv_jsp.service.PageServiceImpl"></beans:bean>
 	
 	<context:component-scan base-package="com.mycgv_jsp.controller" />
 	
