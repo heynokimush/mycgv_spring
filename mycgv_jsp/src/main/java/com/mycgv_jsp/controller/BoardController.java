@@ -20,7 +20,7 @@ import com.mycgv_jsp.vo.BoardVo;
 public class BoardController {
 
 	@Autowired
-	BoardService boardService;
+	private BoardService boardService;
 	
 	/**
 	 * header 게시판(json) 호출되는 주소

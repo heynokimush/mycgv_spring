@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mycgv_jsp.dao.MemberDao;
 import com.mycgv_jsp.dao.NoticeDao;
 import com.mycgv_jsp.service.MemberService;
-import com.mycgv_jsp.service.MemberServiceImpl;
-import com.mycgv_jsp.vo.MemberVo;
+import com.mycgv_jsp.service.NoticeService;
 import com.mycgv_jsp.vo.NoticeVo;
 
 @Controller
@@ -20,6 +18,7 @@ public class AdminController {
 
 	@Autowired
 	private MemberService memberService;
+	private NoticeService noticeService;
 	
 	/**
 	 * admin - 관리자
@@ -36,7 +35,6 @@ public class AdminController {
 	@RequestMapping(value="/admin_notice_list.do", method=RequestMethod.GET)
 	public ModelAndView admin_notice_list(String page) {
 		ModelAndView model = new ModelAndView();		
-		NoticeDao noticeDao = new NoticeDao();
 		
 		//페이징 처리 - startCount, endCount 구하기
 		int startCount = 0;
@@ -44,7 +42,7 @@ public class AdminController {
 		int pageSize = 10;	//한페이지당 게시물 수
 		int reqPage = 1;	//요청페이지	
 		int pageCount = 1;	//전체 페이지 수
-		int dbCount = noticeDao.totalRowCount();	//DB에서 가져온 전체 행수
+		int dbCount = noticeService.getCount();	//DB에서 가져온 전체 행수
 		
 		//총 페이지 수 계산
 		if(dbCount % pageSize == 0){
@@ -63,7 +61,7 @@ public class AdminController {
 			endCount = pageSize;
 		}
 		
-		ArrayList<NoticeVo> list = noticeDao.select(startCount, endCount);
+		ArrayList<NoticeVo> list = noticeService.getSelect(startCount, endCount);
 	
 		model.addObject("list", list);
 		model.addObject("totals", dbCount);
@@ -83,8 +81,7 @@ public class AdminController {
 	public ModelAndView admin_notice_content(String nid) {
 		ModelAndView model = new ModelAndView();
 		
-		NoticeDao noticeDao = new NoticeDao();
-		NoticeVo noticeVo = noticeDao.select(nid);
+		NoticeVo noticeVo = noticeService.getSelect(nid);
 		
 		model.addObject("noticeVo", noticeVo);
 		model.setViewName("/admin/notice/admin_notice_content");
@@ -107,8 +104,7 @@ public class AdminController {
 	public String admin_notice_write_proc(NoticeVo noticeVo) {
 		String viewName = "";
 		
-		NoticeDao noticeDao = new NoticeDao();
-		int result = noticeDao.insert(noticeVo);
+		int result = noticeService.getInsert(noticeVo);
 		if(result == 1) {
 			viewName = "redirect:/admin_notice_list.do";
 		} else {
@@ -125,8 +121,7 @@ public class AdminController {
 	public ModelAndView admin_notice_update(String nid) {
 		ModelAndView model = new ModelAndView();
 		
-		NoticeDao noticeDao = new NoticeDao();
-		NoticeVo noticeVo = noticeDao.select(nid);
+		NoticeVo noticeVo = noticeService.getSelect(nid);
 		
 		model.addObject("noticeVo", noticeVo);
 		model.setViewName("/admin/notice/admin_notice_update");
@@ -141,8 +136,7 @@ public class AdminController {
 	public String admin_notice_update_proc(NoticeVo noticeVo) {
 		String viewName = "";
 		
-		NoticeDao noticeDao = new NoticeDao();
-		int result = noticeDao.update(noticeVo);
+		int result = noticeService.getUpdate(noticeVo);
 		if(result == 1) {
 			viewName = "redirect:/admin_notice_list.do";
 		} else {
@@ -171,8 +165,7 @@ public class AdminController {
 	public String admin_notice_delete_proc(String nid) {
 		String viewName = "";
 		
-		NoticeDao noticeDao = new NoticeDao();
-		int result = noticeDao.delete(nid);
+		int result = noticeService.getDelete(nid);
 		if(result == 1) {
 			viewName = "redirect:/admin_notice_list.do";
 		} else {
