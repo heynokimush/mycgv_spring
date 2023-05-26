@@ -22,7 +22,7 @@ public class PageServiceImpl {
 		//페이징 처리 - startCount, endCount 구하기
 		int startCount = 0;
 		int endCount = 0;
-		int pageSize = 10;	//한페이지당 게시물 수
+		int pageSize = 5;	//한페이지당 게시물 수
 		int reqPage = 1;	//요청페이지	
 		int pageCount = 1;	//전체 페이지 수
 		int dbCount = 0;	//DB에서 가져온 전체 행수
@@ -31,6 +31,7 @@ public class PageServiceImpl {
 			//매개변수 serviceType을 noticeService 변환
 			//noticeService = (NoticeService)serviceType; //수업용 코드, 형변환은 이런식으로 진행하면된다
 			dbCount = noticeService.getCount();
+			pageSize = 10;
 		} else if(serviceName.equals("member")) {
 			dbCount = memberService.getCount();
 		} else if(serviceName.equals("board")) {

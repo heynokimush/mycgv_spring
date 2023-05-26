@@ -19,7 +19,7 @@
 	<div class="content">
 		<section class="board">
 			<h1 class="title">게시판</h1>
-			<form name="writeForm" action="board_write_proc.do" method="post">
+			<form name="writeForm" action="board_write_proc.do" method="post" enctype="multipart/form-data">
 				<table>
 					<tr>
 						<th class="test">제목</th>
@@ -39,6 +39,12 @@
 						<td>
 							<input type="text" name="id" value="hong1234" disabled>
 							<input type="hidden" name="id" value="hong1234">
+						</td>
+					</tr>
+					<tr>
+						<th>파일업로드</th>
+						<td>
+							<input type="file" name="file1">
 						</td>
 					</tr>
 					<tr>

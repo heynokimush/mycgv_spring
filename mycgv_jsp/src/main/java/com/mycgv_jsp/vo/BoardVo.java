@@ -1,9 +1,31 @@
 package com.mycgv_jsp.vo;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 public class BoardVo {
 	int rno, bhits;
-	String bid, btitle, bcontent, id, bdate;
+	String bid, btitle, bcontent, id, bdate, bfile, bsfile;
+	CommonsMultipartFile file1; //폼에서 넘어오는 파일객체
 	
+	
+	public String getBfile() {
+		return bfile;
+	}
+	public void setBfile(String bfile) {
+		this.bfile = bfile;
+	}
+	public String getBsfile() {
+		return bsfile;
+	}
+	public void setBsfile(String bsfile) {
+		this.bsfile = bsfile;
+	}
+	public CommonsMultipartFile getFile1() {
+		return file1;
+	}
+	public void setFile1(CommonsMultipartFile file1) {
+		this.file1 = file1;
+	}
 	public int getRno() {
 		return rno;
 	}
