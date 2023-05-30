@@ -1,104 +1,124 @@
 package com.mycgv_jsp.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.mycgv_jsp.vo.BoardVo;
 
+@Repository
 public class BoardDao extends DBConn {
+	
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
 	/**
 	 * insert - 게시글 등록
 	 */
 	public int insert(BoardVo boardVo) {
-		int result = 0;
-		
-		String sql = "insert into mycgv_board(bid,btitle,bcontent,bhits,id,bdate,bfile,bsfile) "
-				+ "values('b_'||ltrim(to_char(sequ_mycgv_board_bid.nextval,'0000')),?,?,0,?,sysdate,?,?)";
-		getPreparedStatement(sql);
-		
-		try {
-			pstmt.setString(1, boardVo.getBtitle());
-			pstmt.setString(2, boardVo.getBcontent());
-			pstmt.setString(3, boardVo.getId());
-			pstmt.setString(4, boardVo.getBfile());
-			pstmt.setString(5, boardVo.getBsfile());
-			
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+		return sqlSession.insert("mapper.board.write",boardVo);
+//		int result = 0;
+//		
+//		String sql = "insert into mycgv_board(bid,btitle,bcontent,bhits,id,bdate,bfile,bsfile) "
+//				+ "values('b_'||ltrim(to_char(sequ_mycgv_board_bid.nextval,'0000')),?,?,0,?,sysdate,?,?)";
+//		getPreparedStatement(sql);
+//		
+//		try {
+//			pstmt.setString(1, boardVo.getBtitle());
+//			pstmt.setString(2, boardVo.getBcontent());
+//			pstmt.setString(3, boardVo.getId());
+//			pstmt.setString(4, boardVo.getBfile());
+//			pstmt.setString(5, boardVo.getBsfile());
+//			
+//			result = pstmt.executeUpdate();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
 	}
 	
 	/**
 	 * select - 게시글 전체 리스트
 	 */
-	public ArrayList<BoardVo> select() {
-		ArrayList<BoardVo> list = new ArrayList<BoardVo>();
-		
-		String sql = "select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd')\r\n" + 
-				"from (select bid, btitle, bcontent, bhits, id, bdate from mycgv_board\r\n" + 
-				"          order by bdate desc)";
-		getPreparedStatement(sql);
-		
-		try {
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				BoardVo boardVo = new BoardVo();
-				
-				boardVo.setRno(rs.getInt(1));
-				boardVo.setBid(rs.getString(2));
-				boardVo.setBtitle(rs.getString(3));
-				boardVo.setBcontent(rs.getString(4));
-				boardVo.setBhits(rs.getInt(5));
-				boardVo.setId(rs.getString(6));
-				boardVo.setBdate(rs.getString(7));
-				
-				list.add(boardVo);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
+//	public ArrayList<BoardVo> select() {
+//		ArrayList<BoardVo> list = new ArrayList<BoardVo>();
+//		
+//		String sql = "select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd')\r\n" + 
+//				"from (select bid, btitle, bcontent, bhits, id, bdate from mycgv_board\r\n" + 
+//				"          order by bdate desc)";
+//		getPreparedStatement(sql);
+//		
+//		try {
+//			rs = pstmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				BoardVo boardVo = new BoardVo();
+//				
+//				boardVo.setRno(rs.getInt(1));
+//				boardVo.setBid(rs.getString(2));
+//				boardVo.setBtitle(rs.getString(3));
+//				boardVo.setBcontent(rs.getString(4));
+//				boardVo.setBhits(rs.getInt(5));
+//				boardVo.setId(rs.getString(6));
+//				boardVo.setBdate(rs.getString(7));
+//				
+//				list.add(boardVo);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return list;
+//	}
 	/**
 	 * select - 게시글 전체 리스트 -> 페이징
 	 */
 	public ArrayList<BoardVo> select(int startCount, int endCount) {
-		ArrayList<BoardVo> list = new ArrayList<BoardVo>();
+		Map<String,Integer> param = new HashMap<String,Integer>();
+		param.put("start", startCount);
+		param.put("end", endCount);
 		
-		String sql = "select rno, bid, btitle, bcontent, bhits, id, bdate"
-				+ " from (select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd') bdate\r\n"  
-				+ " from (select bid, btitle, bcontent, bhits, id, bdate from mycgv_board\r\n"  
-				+ "          order by bdate desc))"
-				+ " where rno between ? and ?";
-		getPreparedStatement(sql);
+		List<BoardVo> list = sqlSession.selectList("mapper.board.list", param);
 		
-		try {
-			pstmt.setInt(1, startCount);
-			pstmt.setInt(2, endCount);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				BoardVo boardVo = new BoardVo();
-				
-				boardVo.setRno(rs.getInt(1));
-				boardVo.setBid(rs.getString(2));
-				boardVo.setBtitle(rs.getString(3));
-				boardVo.setBcontent(rs.getString(4));
-				boardVo.setBhits(rs.getInt(5));
-				boardVo.setId(rs.getString(6));
-				boardVo.setBdate(rs.getString(7));
-				
-				list.add(boardVo);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
+		return (ArrayList<BoardVo>)list;
+//		ArrayList<BoardVo> list = new ArrayList<BoardVo>();
+//		
+//		String sql = "select rno, bid, btitle, bcontent, bhits, id, bdate"
+//				+ " from (select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd') bdate\r\n"  
+//				+ " from (select bid, btitle, bcontent, bhits, id, bdate from mycgv_board\r\n"  
+//				+ "          order by bdate desc))"
+//				+ " where rno between ? and ?";
+//		getPreparedStatement(sql);
+//		
+//		try {
+//			pstmt.setInt(1, startCount);
+//			pstmt.setInt(2, endCount);
+//			rs = pstmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				BoardVo boardVo = new BoardVo();
+//				
+//				boardVo.setRno(rs.getInt(1));
+//				boardVo.setBid(rs.getString(2));
+//				boardVo.setBtitle(rs.getString(3));
+//				boardVo.setBcontent(rs.getString(4));
+//				boardVo.setBhits(rs.getInt(5));
+//				boardVo.setId(rs.getString(6));
+//				boardVo.setBdate(rs.getString(7));
+//				
+//				list.add(boardVo);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return list;
 	}
 	
 	/**

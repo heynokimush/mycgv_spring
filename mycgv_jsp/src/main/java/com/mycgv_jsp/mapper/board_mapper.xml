@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="mapper.board">
+
+	<insert id="write" parameterType="com.mycgv_jsp.vo.BoardVo">
+		insert into 
+			mycgv_board
+				(bid,btitle,bcontent,bhits,id,bdate,bfile,bsfile)
+			values
+				('b_'||ltrim(to_char(sequ_mycgv_board_bid.nextval,'0000')),#{btitle},#{bcontent},
+						0,#{id},sysdate,#{bfile},#{bsfile})
+	</insert>
+	
+	<select id="list" parameterType="map" resultType="com.mycgv_jsp.vo.BoardVo">
+		select rno, bid, btitle, bcontent, bhits, id, bdate
+				from (select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd') bdate  
+						from (select bid, btitle, bcontent, bhits, id, bdate from mycgv_board  
+								order by bdate desc))
+				where rno between #{start} and #{end}
+	</select>
+</mapper>

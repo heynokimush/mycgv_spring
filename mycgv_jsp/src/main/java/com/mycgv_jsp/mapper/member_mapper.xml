@@ -17,4 +17,12 @@
 	<select id="login" parameterType="com.mycgv_jsp.vo.MemberVo" resultType="int">
 		select count(*) from mycgv_member where id=#{id} and pass=#{pass}
 	</select>
+	
+	<select id="list" parameterType="map" resultType="com.mycgv_jsp.vo.MemberVo">
+		select rno, id, name, mdate, grade 
+			from (select rownum rno, id, name, to_char(mdate,'yyyy-mm-dd') mdate, grade 
+					from (select id, name, mdate, grade from mycgv_member 
+				    		order by mdate desc)) 
+			where rno between #{start} and #{end}
+	</select>
 </mapper>
