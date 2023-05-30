@@ -2,6 +2,7 @@ package com.mycgv_jsp.service;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mycgv_jsp.dao.BoardDao;
@@ -9,10 +10,12 @@ import com.mycgv_jsp.vo.BoardVo;
 
 @Service
 public class BoardServiceImpl implements BoardService{
-	BoardDao boardDao = new BoardDao();
+	@Autowired
+	private BoardDao boardDao;
 	
 	@Override
 	public int getCount() {
+		BoardDao boardDao = new BoardDao();
 		return boardDao.totalRowCount();
 	}
 	
@@ -27,8 +30,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public int getUpdateHits(String bid) {
-		return boardDao.updateHits(bid);
+	public void getUpdateHits(String bid) {
+		boardDao.updateHits(bid);
 	}
 	
 	@Override

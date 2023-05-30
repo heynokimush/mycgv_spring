@@ -46,7 +46,9 @@ public class BoardDao extends DBConn {
 	/**
 	 * select - 게시글 전체 리스트
 	 */
-//	public ArrayList<BoardVo> select() {
+	public ArrayList<BoardVo> select() {
+		List<BoardVo> list = sqlSession.selectList("mapper.board.list2");
+		return (ArrayList<BoardVo>)list;
 //		ArrayList<BoardVo> list = new ArrayList<BoardVo>();
 //		
 //		String sql = "select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd')\r\n" + 
@@ -75,7 +77,8 @@ public class BoardDao extends DBConn {
 //		}
 //		
 //		return list;
-//	}
+	}
+	
 	/**
 	 * select - 게시글 전체 리스트 -> 페이징
 	 */
@@ -125,93 +128,97 @@ public class BoardDao extends DBConn {
 	 * select - 게시글 상세
 	 */
 	public BoardVo select(String bid) {
-		BoardVo boardVo = new BoardVo();
-		
-		String sql = "select bid, btitle, bcontent, bhits, id, bdate, bfile, bsfile from mycgv_board\r\n"
-				+ "where bid=?";
-		getPreparedStatement(sql);
-		
-		try {
-			pstmt.setString(1, bid);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				boardVo.setBid(rs.getString(1));
-				boardVo.setBtitle(rs.getString(2));
-				boardVo.setBcontent(rs.getString(3));
-				boardVo.setBhits(rs.getInt(4));
-				boardVo.setId(rs.getString(5));
-				boardVo.setBdate(rs.getString(6));
-				boardVo.setBfile(rs.getString(7));
-				boardVo.setBsfile(rs.getString(8));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return boardVo;
+		return sqlSession.selectOne("mapper.board.content", bid);
+//		BoardVo boardVo = new BoardVo();
+//		
+//		String sql = "select bid, btitle, bcontent, bhits, id, bdate, bfile, bsfile from mycgv_board\r\n"
+//				+ "where bid=?";
+//		getPreparedStatement(sql);
+//		
+//		try {
+//			pstmt.setString(1, bid);
+//			rs = pstmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				boardVo.setBid(rs.getString(1));
+//				boardVo.setBtitle(rs.getString(2));
+//				boardVo.setBcontent(rs.getString(3));
+//				boardVo.setBhits(rs.getInt(4));
+//				boardVo.setId(rs.getString(5));
+//				boardVo.setBdate(rs.getString(6));
+//				boardVo.setBfile(rs.getString(7));
+//				boardVo.setBsfile(rs.getString(8));
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return boardVo;
 	}
 	
 	/**
 	 * update - 게시글 수정
 	 */
 	public int update(BoardVo boardVo) {
-		int result = 0;
-		
-		String sql = "update mycgv_board set btitle=?, bcontent=? where bid=?";
-		getPreparedStatement(sql);
-		
-		try {
-			pstmt.setString(1, boardVo.getBtitle());
-			pstmt.setString(2, boardVo.getBcontent());
-			pstmt.setString(3, boardVo.getBid());
-			
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+		return sqlSession.update("mapper.board.update", boardVo);
+//		int result = 0;
+//		
+//		String sql = "update mycgv_board set btitle=?, bcontent=? where bid=?";
+//		getPreparedStatement(sql);
+//		
+//		try {
+//			pstmt.setString(1, boardVo.getBtitle());
+//			pstmt.setString(2, boardVo.getBcontent());
+//			pstmt.setString(3, boardVo.getBid());
+//			
+//			result = pstmt.executeUpdate();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
 	}
 	
 	/**
 	 * updateHits - 게시글 수정
 	 */
-	public int updateHits(String bid) {
-		int result = 0;
-		
-		String sql = "update mycgv_board set bhits=bhits+1 where bid=?";
-		getPreparedStatement(sql);
-		
-		try {
-			pstmt.setString(1, bid);
-			
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+	public void updateHits(String bid) {
+		sqlSession.update("mapper.board.updateHits",bid);
+//		int result = 0;
+//		
+//		String sql = "update mycgv_board set bhits=bhits+1 where bid=?";
+//		getPreparedStatement(sql);
+//		
+//		try {
+//			pstmt.setString(1, bid);
+//			
+//			result = pstmt.executeUpdate();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
 	}
 	
 	/**
 	 * delete - 게시글 삭제
 	 */
 	public int delete(String bid) {
-		int result = 0;
-		
-		String sql = "delete from mycgv_board where bid=?";
-		getPreparedStatement(sql);
-		
-		try {
-			pstmt.setString(1, bid);
-			
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+		return sqlSession.delete("mapper.board.delete",bid);
+//		int result = 0;
+//		
+//		String sql = "delete from mycgv_board where bid=?";
+//		getPreparedStatement(sql);
+//		
+//		try {
+//			pstmt.setString(1, bid);
+//			
+//			result = pstmt.executeUpdate();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
 	}
 	
 	/**
