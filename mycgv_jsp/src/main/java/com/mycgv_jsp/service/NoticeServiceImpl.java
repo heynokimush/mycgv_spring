@@ -2,11 +2,15 @@ package com.mycgv_jsp.service;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.mycgv_jsp.dao.NoticeDao;
 import com.mycgv_jsp.vo.NoticeVo;
 
 public class NoticeServiceImpl implements NoticeService{
-	NoticeDao noticeDao = new NoticeDao();
+
+	@Autowired
+	private NoticeDao noticeDao;
 	
 	@Override
 	public int getCount() {
@@ -24,8 +28,8 @@ public class NoticeServiceImpl implements NoticeService{
 	};
 	
 	@Override
-	public int getUpdateHits(String nid) {
-		return noticeDao.updateHits(nid);
+	public void getUpdateHits(String nid) {
+		noticeDao.updateHits(nid);
 	};
 	
 	@Override

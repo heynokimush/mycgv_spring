@@ -15,7 +15,6 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public int getCount() {
-		BoardDao boardDao = new BoardDao();
 		return boardDao.totalRowCount();
 	}
 	

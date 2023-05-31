@@ -8,7 +8,7 @@ public interface NoticeService {
 	public int getCount();
 	public ArrayList<NoticeVo> getSelect(int startCount, int endCount);
 	public NoticeVo getSelect(String nid);
-	public int getUpdateHits(String nid);
+	public void getUpdateHits(String nid);
 	public int getInsert(NoticeVo noticeVo);
 	public int getUpdate(NoticeVo noticeVo);
 	public int getDelete(String nid);
