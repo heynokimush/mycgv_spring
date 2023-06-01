@@ -34,8 +34,4 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<MemberVo> getList(int startCount, int endCount) {
 		return memberDao.select(startCount, endCount);
 	}
-	
-	public int getCount() {
-		return memberDao.totalRowCount();
-	}
 }

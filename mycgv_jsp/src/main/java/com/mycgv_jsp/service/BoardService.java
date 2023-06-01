@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.mycgv_jsp.vo.BoardVo;
 
 public interface BoardService {
-	public int getCount();
 	public ArrayList<BoardVo> getSelect(int startCount, int endCount);
 	public BoardVo getSelect(String bid);
 	public void getUpdateHits(String bid);

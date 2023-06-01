@@ -10,16 +10,6 @@ import com.mycgv_jsp.dao.PageDao;
 
 @Service("pageService")
 public class PageServiceImpl {
-	
-//	@Autowired
-//	private MemberService memberService;
-//	
-//	@Autowired
-//	private BoardService boardService;
-//	
-//	@Autowired
-//	private NoticeService noticeService;
-	
 	@Autowired
 	private PageDao pageDao;
 
@@ -29,17 +19,16 @@ public class PageServiceImpl {
 		//페이징 처리 - startCount, endCount 구하기
 		int startCount = 0;
 		int endCount = 0;
-		int pageSize = 5;	//한페이지당 게시물 수
+		int pageSize = 0;	//한페이지당 게시물 수
 		int reqPage = 1;	//요청페이지	
 		int pageCount = 1;	//전체 페이지 수
 		int dbCount = 0;	//DB에서 가져온 전체 행수
 		
 		dbCount = pageDao.totalRowCount(serviceName);
-		/*
-		 * if(serviceName.equals("notice")) { pageSize = 10; } else
-		 * if(serviceName.equals("member")) { pageSize = 5; } else
-		 * if(serviceName.equals("board")) { pageSize = 5; }
-		 */
+		
+		if(serviceName.equals("notice")) { pageSize = 5; } else
+		if(serviceName.equals("member")) { pageSize = 3; } else
+		if(serviceName.equals("board")) { pageSize = 10; }
 		
 		//총 페이지 수 계산
 		if(dbCount % pageSize == 0){

@@ -25,6 +25,12 @@
 				    		order by mdate desc)) 
 			where rno between #{start} and #{end}
 	</select>
+	<select id="list2" resultType="com.mycgv_jsp.vo.MemberVo">
+		select rownum rno, id, name, to_char(mdate,'yyyy-mm-dd') mdate, grade
+		from (select id, name, mdate, grade 
+				from MYCGV_MEMBER order by mdate) 
+				order by rno
+	</select>
 	
 	<select id="idcheck" parameterType="String" resultType="int">
 		select count(*) from mycgv_member where id=#{id}

@@ -10,11 +10,6 @@ public class MyPageController {
 	/**
 	 * mypage.do - 마이페이지
 	 */
-	/*
-	 * @RequestMapping(value="/mypage.do",method=RequestMethod.GET) public
-	 * ModelAndView mypage() { ModelAndView model = new ModelAndView();
-	 * model.setViewName("/mypage/mypage"); return model; }
-	 */
 	@RequestMapping(value="/mypage.do",method=RequestMethod.GET)
 	public String mypage() {
 		return "/mypage/mypage";

@@ -14,11 +14,6 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDao boardDao;
 	
 	@Override
-	public int getCount() {
-		return boardDao.totalRowCount();
-	}
-	
-	@Override
 	public ArrayList<BoardVo> getSelect(int startCount, int endCount) {
 		return boardDao.select(startCount, endCount);
 	}

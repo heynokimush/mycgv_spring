@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.mycgv_jsp.vo.NoticeVo;
 
 public interface NoticeService {
-	public int getCount();
 	public ArrayList<NoticeVo> getSelect(int startCount, int endCount);
 	public NoticeVo getSelect(String nid);
 	public void getUpdateHits(String nid);

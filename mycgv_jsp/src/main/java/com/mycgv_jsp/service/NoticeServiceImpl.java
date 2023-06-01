@@ -15,11 +15,6 @@ public class NoticeServiceImpl implements NoticeService{
 	private NoticeDao noticeDao;
 	
 	@Override
-	public int getCount() {
-		return noticeDao.totalRowCount();
-	};
-	
-	@Override
 	public ArrayList<NoticeVo> getSelect(int startCount, int endCount){
 		return noticeDao.select(startCount, endCount);
 	};
