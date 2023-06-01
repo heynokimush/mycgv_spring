@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mycgv_jsp.vo.NoticeVo;
 
 @Repository
-public class NoticeDao extends DBConn {
+public class NoticeDao {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mycgv_jsp.vo.MemberVo;
 
 @Repository
-public class MemberDao extends DBConn{ //Repository를 붙이면 비즈니스 로직을 수행하지 않고, 마이바티스에게 넘기게 된다.
+public class MemberDao { //Repository를 붙이면 비즈니스 로직을 수행하지 않고, 마이바티스에게 넘기게 된다.
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;	//DBConn 대신 db연동 역할

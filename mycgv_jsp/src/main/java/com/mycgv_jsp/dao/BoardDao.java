@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mycgv_jsp.vo.BoardVo;
 
 @Repository
-public class BoardDao extends DBConn {
+public class BoardDao {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
