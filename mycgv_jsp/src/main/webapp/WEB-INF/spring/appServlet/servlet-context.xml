@@ -25,10 +25,12 @@
 	</beans:bean>
 	
 	<!-- Service -->
+	<!-- 
 	<beans:bean id="memberService" class="com.mycgv_jsp.service.MemberServiceImpl"></beans:bean>
 	<beans:bean id="boardService" class="com.mycgv_jsp.service.BoardServiceImpl"></beans:bean>
 	<beans:bean id="noticeService" class="com.mycgv_jsp.service.NoticeServiceImpl"></beans:bean>
 	<beans:bean id="pageService" class="com.mycgv_jsp.service.PageServiceImpl"></beans:bean>
+	 -->
 	
 	<!-- multipartResolver -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -37,6 +39,7 @@
 	
 	<context:component-scan base-package="com.mycgv_jsp.controller" />
 	<context:component-scan base-package="com.mycgv_jsp.dao" />
+	<context:component-scan base-package="com.mycgv_jsp.service" />
 	
 	
 </beans:beans>

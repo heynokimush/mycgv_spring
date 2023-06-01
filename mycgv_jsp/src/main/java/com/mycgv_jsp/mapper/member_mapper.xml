@@ -25,4 +25,8 @@
 				    		order by mdate desc)) 
 			where rno between #{start} and #{end}
 	</select>
+	
+	<select id="idcheck" parameterType="String" resultType="int">
+		select count(*) from mycgv_member where id=#{id}
+	</select>
 </mapper>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.mycgv_jsp.dao.MemberDao;
 import com.mycgv_jsp.vo.MemberVo;
 
-@Service
+@Service("memberService")
 public class MemberServiceImpl implements MemberService{
 
 	@Autowired

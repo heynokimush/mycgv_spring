@@ -128,24 +128,25 @@ public class MemberDao extends DBConn{ //Repository∏¶ ∫Ÿ¿Ã∏È ∫Ò¡Ó¥œΩ∫ ∑Œ¡˜¿ª ºˆ«
 	 * idCheck - æ∆¿Ãµ ¡ﬂ∫π√º≈©
 	 */
 	public int idCheck(String id) {
-		int result = 0;
-		
-		String sql = "select count(*) from mycgv_member where id=?";
-		getPreparedStatement(sql);
-		
-		try {
-			pstmt.setString(1, id);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				result = rs.getInt(1);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+		return sqlSession.selectOne("mapper.member.idcheck",id);
+//		int result = 0;
+//		
+//		String sql = "select count(*) from mycgv_member where id=?";
+//		getPreparedStatement(sql);
+//		
+//		try {
+//			pstmt.setString(1, id);
+//			
+//			rs = pstmt.executeQuery();
+//			while(rs.next()) {
+//				result = rs.getInt(1);
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
 	}
 	
 	/**
