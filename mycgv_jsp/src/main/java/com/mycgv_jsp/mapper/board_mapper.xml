@@ -6,7 +6,7 @@
     
 <mapper namespace="mapper.board">
 
-	<insert id="write" parameterType="com.mycgv_jsp.vo.BoardVo">
+	<insert id="insert" parameterType="com.mycgv_jsp.vo.BoardVo">
 		insert into 
 			mycgv_board
 				(bid,btitle,bcontent,bhits,id,bdate,bfile,bsfile)
@@ -17,10 +17,10 @@
 	
 	<select id="list" parameterType="map" resultType="com.mycgv_jsp.vo.BoardVo">
 		select rno, bid, btitle, bcontent, bhits, id, bdate
-				from (select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd') bdate  
-						from (select bid, btitle, bcontent, bhits, id, bdate from mycgv_board  
-								order by bdate desc))
-				where rno between #{start} and #{end}
+		from (select rownum rno, bid, btitle, bcontent, bhits, id, to_char(bdate,'yyyy-mm-dd') bdate  
+				from (select bid, btitle, bcontent, bhits, id, bdate from mycgv_board  
+						order by bdate desc))
+		where rno between #{start} and #{end}
 	</select>
 	
 	<select id="list2" resultType="com.mycgv_jsp.vo.BoardVo">

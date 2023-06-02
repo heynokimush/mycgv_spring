@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mycgv_jsp.vo.BoardVo;
 
 @Repository
-public class BoardDao {
+public class BoardDao implements MycgvDao {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -20,9 +20,13 @@ public class BoardDao {
 	/**
 	 * insert - 게시글 등록
 	 */
-	public int insert(BoardVo boardVo) {
-		return sqlSession.insert("mapper.board.write",boardVo);
+	@Override
+	public int insert(Object boardVo) {
+		return sqlSession.insert("mapper.board.insert",boardVo);
 	}
+//	public int insert(BoardVo boardVo) {
+//		return sqlSession.insert("mapper.board.insert",boardVo);
+//	}
 	
 	/**
 	 * select - 게시글 전체 리스트
@@ -35,14 +39,13 @@ public class BoardDao {
 	/**
 	 * select - 게시글 전체 리스트 -> 페이징
 	 */
-	public ArrayList<BoardVo> select(int startCount, int endCount) {
+	@Override
+	public List<Object> select(int startCount, int endCount) {
 		Map<String,Integer> param = new HashMap<String,Integer>();
 		param.put("start", startCount);
 		param.put("end", endCount);
 		
-		List<BoardVo> list = sqlSession.selectList("mapper.board.list", param);
-		
-		return (ArrayList<BoardVo>)list;
+		return sqlSession.selectList("mapper.board.list", param);
 	}
 	
 	/**

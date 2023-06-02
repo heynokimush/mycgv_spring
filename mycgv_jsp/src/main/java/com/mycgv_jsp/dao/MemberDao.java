@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mycgv_jsp.vo.MemberVo;
 
 @Repository
-public class MemberDao { //Repository를 붙이면 비즈니스 로직을 수행하지 않고, 마이바티스에게 넘기게 된다.
+public class MemberDao implements MycgvDao{ //Repository를 붙이면 비즈니스 로직을 수행하지 않고, 마이바티스에게 넘기게 된다.
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;	//DBConn 대신 db연동 역할
@@ -29,23 +29,26 @@ public class MemberDao { //Repository를 붙이면 비즈니스 로직을 수행하지 않고, 마
 	/**
 	 * select - 멤버 전체 리스트 -> 페이징
 	 */
-	public ArrayList<MemberVo> select(int startCount, int endCount) {
+	@Override
+	public List<Object> select(int startCount, int endCount) {
 		Map<String,Integer> param = new HashMap<String,Integer>();
 		param.put("start", startCount);
 		param.put("end", endCount);
 		
-		List<MemberVo> list = sqlSession.selectList("mapper.member.list",param); //sqlSession.selectList("sql위치",파라미터);
-		
-		return (ArrayList<MemberVo>)list;
+		return sqlSession.selectList("mapper.member.list",param);
 		
 	}
 	
 	/**
 	 * insert - 회원가입
 	 */
-	public int insert(MemberVo memberVo) {
-		return sqlSession.insert("mapper.member.join", memberVo);
+	@Override
+	public int insert(Object memberVo) {
+		return sqlSession.insert("mapper.member.insert",memberVo);
 	}
+//	public int insert(MemberVo memberVo) {
+//		return sqlSession.insert("mapper.member.join", memberVo);
+//	}
 	
 	/**
 	 * idCheck - 아이디 중복체크

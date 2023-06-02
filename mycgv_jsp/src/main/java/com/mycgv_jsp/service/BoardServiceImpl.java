@@ -1,6 +1,7 @@
 package com.mycgv_jsp.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,15 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public ArrayList<BoardVo> getSelect(int startCount, int endCount) {
-		return boardDao.select(startCount, endCount);
+		ArrayList<BoardVo> rlist = new ArrayList<BoardVo>();
+		List<Object> list = boardDao.select(startCount, endCount);
+		
+		for(Object obj : list) {
+			BoardVo boardVo = (BoardVo)obj;
+			rlist.add(boardVo);
+		}
+		
+		return rlist;
 	}
 	
 	@Override

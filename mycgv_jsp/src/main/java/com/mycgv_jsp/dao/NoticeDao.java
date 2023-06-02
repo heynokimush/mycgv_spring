@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mycgv_jsp.vo.NoticeVo;
 
 @Repository
-public class NoticeDao {
+public class NoticeDao implements MycgvDao{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -29,13 +29,13 @@ public class NoticeDao {
 	/**
 	 * select - 게시글 전체 리스트 -> 페이징
 	 */
-	public ArrayList<NoticeVo> select(int startCount, int endCount) {
+	@Override
+	public List<Object> select(int startCount, int endCount) {
 		Map<String,Integer> param = new HashMap<String,Integer>();
 		param.put("start", startCount);
 		param.put("end", endCount);
 		
-		List<NoticeVo> list = sqlSession.selectList("mapper.notice.list",param);
-		return (ArrayList<NoticeVo>)list;
+		return sqlSession.selectList("mapper.notice.list",param);
 	}
 	
 	/**
@@ -48,7 +48,8 @@ public class NoticeDao {
 	/**
 	 * insert - 공지사항 글쓰기
 	 */
-	public int insert(NoticeVo noticeVo){
+	@Override
+	public int insert(Object noticeVo) {
 		return sqlSession.insert("mapper.notice.insert",noticeVo);
 	}
 	
