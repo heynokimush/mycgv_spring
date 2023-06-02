@@ -1,5 +1,7 @@
 package com.mycgv_jsp.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,16 +37,14 @@ public class LoginController {
 	 * login_proc.do - 로그인 처리
 	 */
 	@RequestMapping(value="/login_proc.do",method=RequestMethod.POST)
-	public ModelAndView login_proc(MemberVo memberVo) {
+	public ModelAndView login_proc(MemberVo memberVo, HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		
 		if(memberService.getLoginResult(memberVo) == 1) {
-			//index.jsp
-			//viewName = "index"; //viewResolver를 호출 -> index.jsp를 불러와서, header와 footer.do는 호출이 안됨
+			session.setAttribute("sid",memberVo.getId());
 			model.addObject("login_result", "success");
 			model.setViewName("index");
 		} else {
-			//login_fail.jsp
 			model.setViewName("redirect:/login_fail.do");
 		}
 		

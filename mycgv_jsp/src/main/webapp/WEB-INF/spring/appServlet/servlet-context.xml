@@ -36,6 +36,21 @@
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</beans:bean>
 	
+	<!-- sessionAuthInterceptor -->
+	<beans:bean id="sessionAuthInterceptor" class="com.mycgv_jsp.interceptor.SessionAuthInterceptor">
+	</beans:bean>
+	
+	<!-- sessionAuthInterceptor check request -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/mypage.do"/>
+			<beans:ref bean="sessionAuthInterceptor"></beans:ref>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin*"/>
+			<beans:ref bean="sessionAuthInterceptor"></beans:ref>
+		</interceptor>
+	</interceptors>
 	
 	<context:component-scan base-package="com.mycgv_jsp.controller" />
 	<context:component-scan base-package="com.mycgv_jsp.dao" />

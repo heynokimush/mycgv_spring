@@ -1,15 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%--
-	String sid = (String)session.getAttribute("sid");
-	if(sid == null){
-		out.write("<script>");
-		out.write("alert('접근 권한이 없습니다. 로그인을 진행해주세요.');");
-		out.write("location.href = 'http://localhost:9000/mycgv_jsp/login/login.jsp'");
-		out.write("</script>");
-	} else {
---%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +30,6 @@
 	<jsp:include page="/footer.do"></jsp:include>
 </body>
 </html>
-<%-- } --%>
 
 
 
