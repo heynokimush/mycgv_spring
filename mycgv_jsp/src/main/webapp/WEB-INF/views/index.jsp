@@ -9,8 +9,12 @@
 	<link rel="stylesheet" href="http://localhost:9000/mycgv_jsp/css/mycgv_jsp.css">
 	<script>
 		let login_result = "${login_result}";
+		let logout_result = "${logout_result}";
 		if(login_result=="success"){
 			alert("로그인에 성공하셨습니다.");
+		}
+		if(logout_result=="success"){
+			alert("로그아웃되었습니다.");
 		}
 		
 	</script>

@@ -50,4 +50,21 @@ public class LoginController {
 		
 		return model;
 	}
+	
+	/**
+	 * logout.do - ·Î±×¾Æ¿ô
+	 */
+	@RequestMapping(value="/logout.do",method=RequestMethod.GET)
+	public ModelAndView logout(HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		String sid = (String)session.getAttribute("sid");
+		if(sid != null) {
+			session.invalidate();
+			model.addObject("logout_result","success");
+		}
+		
+		model.setViewName("index");
+		
+		return model;
+	}
 }
