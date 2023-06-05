@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mycgv_jsp.service.MemberService;
 import com.mycgv_jsp.vo.MemberVo;
+import com.mycgv_jsp.vo.SessionVo;
 
 @Controller
 public class LoginController {
@@ -39,8 +40,9 @@ public class LoginController {
 	@RequestMapping(value="/login_proc.do",method=RequestMethod.POST)
 	public ModelAndView login_proc(MemberVo memberVo, HttpSession session) {
 		ModelAndView model = new ModelAndView();
+		SessionVo svo = memberService.getLoginResult(memberVo);
 		
-		if(memberService.getLoginResult(memberVo) == 1) {
+		if(svo.getLoginResult() == 1) {
 			session.setAttribute("sid",memberVo.getId());
 			model.addObject("login_result", "success");
 			model.setViewName("index");

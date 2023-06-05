@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.mycgv_jsp.vo.MemberVo;
+import com.mycgv_jsp.vo.SessionVo;
 
 @Repository
 public class MemberDao implements MycgvDao{ //Repository를 붙이면 비즈니스 로직을 수행하지 않고, 마이바티스에게 넘기게 된다.
@@ -60,7 +61,7 @@ public class MemberDao implements MycgvDao{ //Repository를 붙이면 비즈니스 로직�
 	/**
 	 * loginCheck - 로그인 체크
 	 */
-	public int loginCheck(MemberVo memberVo) {
+	public SessionVo loginCheck(MemberVo memberVo) {
 		return sqlSession.selectOne("mapper.member.login", memberVo);
 	}
 	

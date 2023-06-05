@@ -14,8 +14,11 @@
 					,#{tel},#{pnumber},#{hobbyList},#{intro},sysdate,'GOLD')
 	</insert>
 	
-	<select id="login" parameterType="com.mycgv_jsp.vo.MemberVo" resultType="int">
-		select count(*) from mycgv_member where id=#{id} and pass=#{pass}
+	<select id="login" parameterType="com.mycgv_jsp.vo.MemberVo" resultType="com.mycgv_jsp.vo.SessionVo">
+		select count(*) loginresult, name, id 
+		from mycgv_member 
+		where id=#{id} and pass=#{pass}
+		group by name, id;
 	</select>
 	
 	<select id="list" parameterType="map" resultType="com.mycgv_jsp.vo.MemberVo">
