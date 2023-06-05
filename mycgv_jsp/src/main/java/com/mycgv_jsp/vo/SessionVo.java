@@ -1,14 +1,14 @@
 package com.mycgv_jsp.vo;
 
 public class SessionVo {
-	int loginResult;
+	int loginresult;
 	String name, id, pass;
 	
-	public int getLoginResult() {
-		return loginResult;
+	public int getLoginresult() {
+		return loginresult;
 	}
-	public void setLoginResult(int loginResult) {
-		this.loginResult = loginResult;
+	public void setLoginresult(int loginresult) {
+		this.loginresult = loginresult;
 	}
 	public String getName() {
 		return name;

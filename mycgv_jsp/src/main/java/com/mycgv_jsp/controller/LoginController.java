@@ -42,8 +42,8 @@ public class LoginController {
 		ModelAndView model = new ModelAndView();
 		SessionVo svo = memberService.getLoginResult(memberVo);
 		
-		if(svo.getLoginResult() == 1) {
-			session.setAttribute("sid",memberVo.getId());
+		if(svo.getLoginresult() == 1) {
+			session.setAttribute("svo",svo);
 			model.addObject("login_result", "success");
 			model.setViewName("index");
 		} else {
@@ -59,8 +59,8 @@ public class LoginController {
 	@RequestMapping(value="/logout.do",method=RequestMethod.GET)
 	public ModelAndView logout(HttpSession session) {
 		ModelAndView model = new ModelAndView();
-		String sid = (String)session.getAttribute("sid");
-		if(sid != null) {
+		SessionVo svo = (SessionVo)session.getAttribute("svo");
+		if(svo.getId() != null) {
 			session.invalidate();
 			model.addObject("logout_result","success");
 		}
