@@ -37,7 +37,12 @@
 	</select>
 	
 	<update id="update" parameterType="com.mycgv_jsp.vo.BoardVo">
-		update mycgv_board set btitle=#{btitle}, bcontent=#{bcontent} where bid=#{bid}
+		update mycgv_board 
+		set btitle=#{btitle}, bcontent=#{bcontent} 
+		<if test='bfile != null'>
+			, bfile=#{bfile}, bsfile=#{bsfile}
+		</if>
+		where bid=#{bid}
 	</update>
 	
 	<update id="updateHits" parameterType="String">

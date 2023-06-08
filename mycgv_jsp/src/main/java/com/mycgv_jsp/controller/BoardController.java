@@ -3,7 +3,6 @@ package com.mycgv_jsp.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mycgv_jsp.service.BoardService;
+import com.mycgv_jsp.service.FileServiceImpl;
 import com.mycgv_jsp.service.PageServiceImpl;
 import com.mycgv_jsp.vo.BoardVo;
 
@@ -29,6 +29,9 @@ public class BoardController {
 	
 	@Autowired
 	private PageServiceImpl pageService;
+	
+	@Autowired
+	private FileServiceImpl fileService;
 	
 	/**
 	 * header 게시판(json) 호출되는 주소
@@ -129,37 +132,21 @@ public class BoardController {
 	public String board_write_proc(BoardVo boardVo, HttpServletRequest request) throws Exception {
 		String viewName = "";
 		
-		//파일의 저장위치
-		String root_path = request.getSession().getServletContext().getRealPath("/");
-		String attach_path = "\\resources\\upload\\";
+//		//파일의 저장위치
+//		String root_path = request.getSession().getServletContext().getRealPath("/");
+//		String attach_path = "\\resources\\upload\\";
 		
-		//bfile, bsfile 파일명 생성
-		if(boardVo.getFile1().getOriginalFilename() != null
-				&& !boardVo.getFile1().getOriginalFilename().equals("")) {//파일이 존재하면
-
-			//bsfile 파일명 중복 처리
-			UUID uuid = UUID.randomUUID();
-			String bfile = boardVo.getFile1().getOriginalFilename();
-			String bsfile = uuid + "_" + bfile;
-			
-			boardVo.setBfile(bfile);
-			boardVo.setBsfile(bsfile);
-			
-			System.out.println(root_path+attach_path);
-			System.out.println(bfile);
-			System.out.println(bsfile);
-			
-		} else {
-			System.out.println("파일 없음");
-		}
-		
-		int result = boardService.getInsert(boardVo);
+		int result = boardService.getInsert(fileService.fileCheck(boardVo));
 		if(result == 1){
 			//viewName = "/board/board_list"; //jsp 페이지만 반환하면 데이터 연동작업이 안되기 때문에 데이터가 출력되지 않음
 			
-			//파일이 존재하면 서버에 저장
-			File saveFile = new File(root_path + attach_path + boardVo.getBsfile());
-			boardVo.getFile1().transferTo(saveFile);
+//			//파일이 존재하면 서버에 저장
+//			File saveFile = new File(root_path + attach_path + boardVo.getBsfile());
+//			boardVo.getFile1().transferTo(saveFile);
+			
+			if(boardVo.getBfile() != null && !boardVo.getBfile().equals("")) {
+				fileService.fileSave(boardVo, request);
+			}
 			
 			viewName = "redirect:/board_list.do"; //따라서 db연동이 가능한 controller를 호출해주어야 함
 		} else {
@@ -199,10 +186,15 @@ public class BoardController {
 	 * board_update_proc.do - 게시판 글수정 처리
 	 */
 	@RequestMapping(value="/board_update_proc.do",method=RequestMethod.POST)
-	public String board_update_proc(BoardVo boardVo) {
+	public String board_update_proc(BoardVo boardVo, HttpServletRequest request) throws Exception {
 		String viewName = "";
 		
-		if(boardService.getUpdate(boardVo) == 1) {
+		int result = boardService.getUpdate(fileService.fileCheck(boardVo));
+		if(result == 1) {
+			if(boardVo.getBfile() != null && !boardVo.getBfile().equals("")) {
+				fileService.fileSave(boardVo, request); //새로운 파일 저장
+				//기존 파일 삭제
+			}
 			viewName = "redirect:/board_list.do";
 		} else {
 			//에러페이지 호출
