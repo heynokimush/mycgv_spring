@@ -21,6 +21,7 @@
 			<h1 class="title">게시판</h1>
 			<form name="deleteForm" action="board_delete_proc.do" method="post">
 				<input type="hidden" name="bid" value="${bid}">
+				<input type="hidden" name="bsfile" value="${bsfile}">
 				<table>
 					<tr>
 						<td><img src="http://localhost:9000/mycgv_jsp/images/trash.jpg"></td>

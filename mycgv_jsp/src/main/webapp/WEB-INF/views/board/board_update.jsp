@@ -43,7 +43,7 @@
 	<div class="content">
 		<section class="board">
 			<h1 class="title">게시판</h1>
-			<form name="updateForm" action="board_update_proc.do" method="post">
+			<form name="updateForm" action="board_update_proc.do" method="post" enctype="multipart/form-data">
 				<table border=1>
 					<tr>
 						<th>제목</th>
@@ -69,6 +69,7 @@
 						<th>파일업로드</th>
 						<td>
 							<input type="hidden" name="bfile" value="${boardVo.bfile}">
+							<input type="hidden" name="bsfile" value="${boardVo.bsfile}">
 							<input type="file" name="file1" id="file1">
 							<c:choose>
 								<c:when test="${boardVo.bfile != null}">

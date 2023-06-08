@@ -173,10 +173,11 @@ public class BoardController {
 	 * board_delete.do - 게시판 글 삭제하기
 	 */
 	@RequestMapping(value="/board_delete.do",method=RequestMethod.GET)
-	public ModelAndView board_delete(String bid) {
+	public ModelAndView board_delete(String bid, String bsfile) {
 		ModelAndView model = new ModelAndView();
 		
 		model.addObject("bid", bid);
+		model.addObject("bsfile", bsfile);
 		model.setViewName("/board/board_delete");
 		
 		return model;
@@ -189,11 +190,13 @@ public class BoardController {
 	public String board_update_proc(BoardVo boardVo, HttpServletRequest request) throws Exception {
 		String viewName = "";
 		
+		String oldFileName = boardVo.getBsfile(); //새로운 파일 업데이트 시 기존 파일 삭제(매개변수로 기존 파일명이 넘어옴)
+		
 		int result = boardService.getUpdate(fileService.fileCheck(boardVo));
 		if(result == 1) {
 			if(boardVo.getBfile() != null && !boardVo.getBfile().equals("")) {
 				fileService.fileSave(boardVo, request); //새로운 파일 저장
-				//기존 파일 삭제
+				fileService.fileDelete(boardVo, request, oldFileName);//기존 파일 삭제
 			}
 			viewName = "redirect:/board_list.do";
 		} else {
@@ -207,10 +210,11 @@ public class BoardController {
 	 * board_delete_proc.do - 게시판 글 삭제 처리
 	 */
 	@RequestMapping(value="/board_delete_proc.do",method=RequestMethod.POST)
-	public String board_delete_proc(String bid) {
+	public String board_delete_proc(String bid, String bsfile, HttpServletRequest request) throws Exception {
 		String viewName = "";
 		
 		if(boardService.getDelete(bid) == 1) {
+			fileService.fileDelete(request, bsfile);
 			viewName = "redirect:/board_list.do";
 		} else {
 			//에러페이지 호출

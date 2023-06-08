@@ -27,14 +27,10 @@ public class FileServiceImpl {
 			String bfile = boardVo.getFile1().getOriginalFilename();
 			String bsfile = uuid + "_" + bfile;
 			
-System.out.println(bfile);
-System.out.println(bsfile);
-			
 			boardVo.setBfile(bfile);
 			boardVo.setBsfile(bsfile);
 			
 		} else {
-System.out.println("파일 없음");
 //			boardVo.setBfile("");
 //			boardVo.setBsfile("");
 		}
@@ -53,10 +49,44 @@ System.out.println("파일 없음");
 		
 		//파일이 존재하면 서버에 저장
 		if(boardVo.getBfile() != null && !boardVo.getBfile().equals("")) {
-System.out.println("save file -> "+boardVo.getBfile());
 			File saveFile = new File(root_path + attach_path + boardVo.getBsfile());
 			boardVo.getFile1().transferTo(saveFile);
-System.out.println(root_path+attach_path);
+		}
+	}
+	
+	/**
+	 * fileDelete 기능 - 새로운 파일 저장 시 기존 파일을 삭제하는 메소드(업데이트)
+	 */
+	public void fileDelete(BoardVo boardVo, HttpServletRequest request, String oldFileName) 
+														throws Exception{
+		//파일의 삭제위치
+		String root_path = request.getSession().getServletContext().getRealPath("/");
+		String attach_path = "\\resources\\upload\\";
+		
+		//기존 파일 서버에서 삭제
+		if(!boardVo.getFile1().getOriginalFilename().equals("")) { //새로운 파일 선택
+			File deleteFile = new File(root_path + attach_path + oldFileName);
+			if(deleteFile.exists()) {
+				deleteFile.delete();
+			}
+		}
+	}
+	
+	/**
+	 * fileDelete 기능 - 게시글 삭제 시 파일을 삭제하는 메소드
+	 */
+	public void fileDelete(HttpServletRequest request, String oldFileName) 
+														throws Exception{
+		//파일의 삭제위치
+		String root_path = request.getSession().getServletContext().getRealPath("/");
+		String attach_path = "\\resources\\upload\\";
+		
+		//기존 파일 서버에서 삭제
+		if(oldFileName != null && !oldFileName.equals("")) {
+			File deleteFile = new File(root_path + attach_path + oldFileName);
+			if(deleteFile.exists()) {
+				deleteFile.delete();
+			}
 		}
 	}
 }
