@@ -19,7 +19,7 @@
 	<div class="content">
 		<section class="board">
 			<h1 class="title">관리자 - 공지사항</h1>
-			<form name="writeForm" action="admin_notice_write_proc.do"  method="post">
+			<form name="writeForm" action="admin_notice_write_proc.do"  method="post" enctype="multipart/form-data">
 				<table border=1>
 					<tr>
 						<th>제목</th>
@@ -31,6 +31,18 @@
 						<th>내용</th>
 						<td>
 							<textarea rows="5" cols="30" name="ncontent" id="ncontent"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>파일업로드</th>
+						<td>
+							<input type="file" name="files">
+						</td>
+					</tr>
+					<tr>
+						<th>파일업로드</th>
+						<td>
+							<input type="file" name="files">
 						</td>
 					</tr>					
 					<tr>

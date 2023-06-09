@@ -27,8 +27,9 @@
 	</select>
 	
 	<insert id="insert" parameterType="com.mycgv_jsp.vo.NoticeVo">
-		insert into mycgv_notice(nid,ntitle,ncontent,nhits,ndate) 
-		values('n_'||trim(to_char(sequ_mycgv_notice_nid.nextval,'0000')),#{ntitle},#{ncontent},0,sysdate)
+		insert into mycgv_notice(nid,ntitle,ncontent,nhits,ndate,nfile1,nsfile1,nfile2,nsfile2) 
+		values('n_'||trim(to_char(sequ_mycgv_notice_nid.nextval,'0000')),#{ntitle},#{ncontent},0,sysdate
+				,#{nfile1},#{nsfile1},#{nfile2},#{nsfile2})
 	</insert>
 	
 	<update id="update" parameterType="com.mycgv_jsp.vo.NoticeVo">
