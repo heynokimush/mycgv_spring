@@ -53,8 +53,8 @@ public class FileServiceImpl {
 			if(file.getOriginalFilename() != null && !file.getOriginalFilename().equals("")) {
 				File saveFile = new File(root_path + attach_path + noticeVo.getNsfiles().get(count));
 				file.transferTo(saveFile);
-				count++;
 			}
+			count++;
 		}
 	}
 	
