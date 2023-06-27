@@ -95,7 +95,8 @@ public class FileServiceImpl {
 		String attach_path = "\\resources\\upload\\";
 		
 		//파일이 존재하면 서버에 저장
-		if(boardVo.getBfile() != null && !boardVo.getBfile().equals("")) {
+		if(boardVo.getFile1().getOriginalFilename() != null
+				&& !boardVo.getFile1().getOriginalFilename().equals("")) {
 			File saveFile = new File(root_path + attach_path + boardVo.getBsfile());
 			boardVo.getFile1().transferTo(saveFile);
 		}

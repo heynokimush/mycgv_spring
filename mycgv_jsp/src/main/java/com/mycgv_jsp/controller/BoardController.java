@@ -192,7 +192,7 @@ public class BoardController {
 		
 		String oldFileName = boardVo.getBsfile(); //새로운 파일 업데이트 시 기존 파일 삭제(매개변수로 기존 파일명이 넘어옴)
 		
-		int result = boardService.getUpdate(fileService.fileCheck(boardVo));
+		int result = boardService.getUpdate((BoardVo)fileService.fileCheck(boardVo));
 		if(result == 1) {
 			if(boardVo.getBfile() != null && !boardVo.getBfile().equals("")) {
 				fileService.fileSave(boardVo, request); //새로운 파일 저장
