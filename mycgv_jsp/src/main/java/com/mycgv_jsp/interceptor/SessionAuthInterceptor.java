@@ -21,7 +21,7 @@ public class SessionAuthInterceptor extends HandlerInterceptorAdapter{
 		HttpSession session = request.getSession();
 		
 		//sid 확인하기
-		SessionVo svo = (SessionVo)session.getAttribute("sid");
+		SessionVo svo = (SessionVo)session.getAttribute("svo");
 		if(svo==null) {
 			//로그인하지 않은 상태 -> 로그인폼으로 전송
 			response.sendRedirect("/mycgv_jsp/login.do");
