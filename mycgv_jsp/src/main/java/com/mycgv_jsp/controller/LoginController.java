@@ -42,10 +42,12 @@ public class LoginController {
 		ModelAndView model = new ModelAndView();
 		SessionVo svo = memberService.getLoginResult(memberVo);
 		
-		if(svo.getLoginresult() == 1) {
-			session.setAttribute("svo",svo);
-			model.addObject("login_result", "success");
-			model.setViewName("index");
+		if(svo != null) {
+			if(svo.getLoginresult() == 1) {
+				session.setAttribute("svo",svo);
+				model.addObject("login_result", "success");
+				model.setViewName("index");
+			}
 		} else {
 			model.setViewName("redirect:/login_fail.do");
 		}

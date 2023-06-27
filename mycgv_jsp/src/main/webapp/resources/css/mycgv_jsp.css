@@ -77,7 +77,6 @@ header {
 }
 .header_menu > nav.nav1 > ul > li:last-child > a {
 	border-right: none;
-	color: red;
 }
 .header_menu > nav.nav1 > ul > li {
 	float: left;

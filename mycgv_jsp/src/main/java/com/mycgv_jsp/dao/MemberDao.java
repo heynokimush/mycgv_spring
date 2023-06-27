@@ -45,7 +45,7 @@ public class MemberDao implements MycgvDao{ //Repository를 붙이면 비즈니스 로직�
 	 */
 	@Override
 	public int insert(Object memberVo) {
-		return sqlSession.insert("mapper.member.insert",memberVo);
+		return sqlSession.insert("mapper.member.join",memberVo);
 	}
 //	public int insert(MemberVo memberVo) {
 //		return sqlSession.insert("mapper.member.join", memberVo);

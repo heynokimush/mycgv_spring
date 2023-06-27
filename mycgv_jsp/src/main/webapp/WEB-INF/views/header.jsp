@@ -37,9 +37,9 @@
 							<li><a href="#">고객센터</a></li>
 							<li><a href="http://localhost:9000/mycgv_jsp/notice_list.do">공지사항</a></li>
 							<li><a href="http://localhost:9000/mycgv_jsp/board_list.do">게시판</a></li>
-							<li><a href="http://localhost:9000/mycgv_jsp/board_list_json.do">게시판(JSON)</a></li>
+							<!-- <li><a href="http://localhost:9000/mycgv_jsp/board_list_json.do">게시판(JSON)</a></li> -->
 							<c:if test="${sessionScope.svo.id == 'admin'}">
-								<li><a href="http://localhost:9000/mycgv_jsp/admin_index.do">ADMIN</a></li>
+								<li><a href="http://localhost:9000/mycgv_jsp/admin_index.do" style="color: red;">ADMIN</a></li>
 							</c:if>
 						</ul>
 					</c:otherwise>
