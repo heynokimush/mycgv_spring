@@ -22,7 +22,7 @@
 	</select>
 	
 	<select id="content" parameterType="String" resultType="com.mycgv_jsp.vo.NoticeVo">
-		select nid,ntitle,ncontent,nhits,ndate 
+		select nid,ntitle,ncontent,nhits,ndate,nfile1,nsfile1,nfile2,nsfile2
 		from mycgv_notice where nid=#{nid}
 	</select>
 	
@@ -33,7 +33,11 @@
 	</insert>
 	
 	<update id="update" parameterType="com.mycgv_jsp.vo.NoticeVo">
-		update mycgv_notice set ntitle=#{ntitle}, ncontent=#{ncontent} where nid=#{nid}
+		update mycgv_notice 
+		set ntitle=#{ntitle}, ncontent=#{ncontent},
+			nfile1=#{nfile1}, nsfile1=#{nsfile1},
+			nfile2=#{nfile2}, nsfile2=#{nsfile2}
+		where nid=#{nid}
 	</update>
 	
 	<update id="updateHits" parameterType="String">

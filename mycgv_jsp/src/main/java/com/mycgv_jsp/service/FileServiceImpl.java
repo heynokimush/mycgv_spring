@@ -1,6 +1,7 @@
 package com.mycgv_jsp.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,9 +51,32 @@ public class FileServiceImpl {
 		//파일이 존재하면 서버에 저장
 		int count = 0;
 		for(CommonsMultipartFile file : noticeVo.getFiles()) { //파일 자체를 서버에 저장해야하기 때문에 arrayList가 아닌 파일 배열로 작업한다
-			if(file.getOriginalFilename() != null && !file.getOriginalFilename().equals("")) {
+			if(file.getOriginalFilename() != null 
+					&& !file.getOriginalFilename().equals("")) {
 				File saveFile = new File(root_path + attach_path + noticeVo.getNsfiles().get(count));
 				file.transferTo(saveFile);
+			}
+			count++;
+		}
+	}
+	
+	/**
+	 * multiFileDelete 기능 - 새로운 파일 저장 시 기존 파일을 삭제하는 메소드(업데이트)
+	 */
+	public void multiFileDelete(NoticeVo noticeVo, HttpServletRequest request, ArrayList<String> oldFileNames) 
+														throws Exception{
+		//파일의 삭제위치
+		String root_path = request.getSession().getServletContext().getRealPath("/");
+		String attach_path = "\\resources\\upload\\";
+		
+		//기존 파일 서버에서 삭제
+		int count = 0;
+		for(CommonsMultipartFile file : noticeVo.getFiles()) { //파일 자체를 서버에 저장해야하기 때문에 arrayList가 아닌 파일 배열로 작업한다
+			if(!file.getOriginalFilename().equals("")) {
+				File deleteFile = new File(root_path + attach_path + oldFileNames.get(count));
+				if(deleteFile.exists()) {
+					deleteFile.delete();
+				}
 			}
 			count++;
 		}

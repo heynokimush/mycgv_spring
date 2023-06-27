@@ -1,5 +1,6 @@
 package com.mycgv_jsp.controller;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import com.mycgv_jsp.service.FileServiceImpl;
 import com.mycgv_jsp.service.MemberService;
 import com.mycgv_jsp.service.NoticeService;
 import com.mycgv_jsp.service.PageServiceImpl;
+import com.mycgv_jsp.vo.BoardVo;
 import com.mycgv_jsp.vo.NoticeVo;
 
 @Controller
@@ -122,12 +124,22 @@ public class AdminController {
 	 * admin_notice_update_proc - 관리자 공지사항 수정 처리
 	 */
 	@RequestMapping(value="/admin_notice_update_proc.do",method=RequestMethod.POST)
-	public String admin_notice_update_proc(NoticeVo noticeVo) {
+	public String admin_notice_update_proc(NoticeVo noticeVo, HttpServletRequest request) throws Exception {
 		String viewName = "";
+		ArrayList<String> oldFileNames = new ArrayList<String>();
 		
-		if(noticeService.getUpdate(noticeVo) == 1) {
+		oldFileNames.add(noticeVo.getNsfile1());
+		oldFileNames.add(noticeVo.getNsfile2());
+		
+		int result = noticeService.getUpdate(fileService.multiFileCheck(noticeVo));
+		if(result == 1) {
+			if(!noticeVo.getFiles()[0].getOriginalFilename().equals("")) {
+				fileService.multiFileSave(noticeVo, request); //새로운 파일 저장
+				fileService.multiFileDelete(noticeVo, request, oldFileNames);//기존 파일 삭제
+			}
 			viewName = "redirect:/admin_notice_list.do";
 		} else {
+			//에러페이지 호출
 		}
 		
 		return viewName;
