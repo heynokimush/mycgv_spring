@@ -133,7 +133,8 @@ public class AdminController {
 		
 		int result = noticeService.getUpdate(fileService.multiFileCheck(noticeVo));
 		if(result == 1) {
-			if(!noticeVo.getFiles()[0].getOriginalFilename().equals("")) {
+			if(!noticeVo.getFiles()[0].getOriginalFilename().equals("") 
+					|| !noticeVo.getFiles()[1].getOriginalFilename().equals("")) {
 				fileService.multiFileSave(noticeVo, request); //새로운 파일 저장
 				fileService.multiFileDelete(noticeVo, request, oldFileNames);//기존 파일 삭제
 			}
@@ -149,10 +150,12 @@ public class AdminController {
 	 * admin_notice_delete - 관리자 공지사항 삭제하기
 	 */
 	@RequestMapping(value="/admin_notice_delete.do",method=RequestMethod.GET)
-	public ModelAndView admin_notice_delete(String nid) {
+	public ModelAndView admin_notice_delete(String nid, String nsfile1, String nsfile2) {
 		ModelAndView model = new ModelAndView();
 		
 		model.addObject("nid", nid);
+		model.addObject("nsfile1", nsfile1);
+		model.addObject("nsfile2", nsfile2);
 		model.setViewName("/admin/notice/admin_notice_delete");
 		
 		return model;
@@ -162,10 +165,15 @@ public class AdminController {
 	 * admin_notice_delete_proc - 관리자 공지사항 삭제 처리
 	 */
 	@RequestMapping(value="/admin_notice_delete_proc.do",method=RequestMethod.POST)
-	public String admin_notice_delete_proc(String nid) {
+	public String admin_notice_delete_proc(String nid, String nsfile1, String nsfile2, HttpServletRequest request) 
+			throws Exception {
 		String viewName = "";
+		ArrayList<String> oldFileNames = new ArrayList<String>();
+		oldFileNames.add(nsfile1);
+		oldFileNames.add(nsfile2);
 		
 		if(noticeService.getDelete(nid) == 1) {
+			fileService.multiFileDelete(request, oldFileNames);
 			viewName = "redirect:/admin_notice_list.do";
 		} else {
 		}

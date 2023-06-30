@@ -50,7 +50,8 @@
 					<td colspan="2">
 						<a href="admin_notice_update.do?nid=${noticeVo.nid}">
 							<button type="button">수정하기</button></a>
-						<a href="admin_notice_delete.do?nid=${noticeVo.nid}">
+						<a href="admin_notice_delete.do?nid=${noticeVo.nid}
+						&nsfile1=${noticeVo.nsfile1}&nsfile2=${noticeVo.nsfile2}">
 							<button type="button">삭제하기</button></a>
 						<a href="admin_notice_list.do">
 							<button type="button">리스트</button></a>

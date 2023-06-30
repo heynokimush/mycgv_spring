@@ -21,6 +21,8 @@
 			<h1 class="title">관리자 - 공지사항</h1>
 			<form name="deleteForm" action="admin_notice_delete_proc.do" method="post">
 			<input type="hidden" name="nid" value="${nid}">
+			<input type="hidden" name="nsfile1" value="${nsfile1}">
+			<input type="hidden" name="nsfile2" value="${nsfile2}">
 				<table border=1>
 					<tr>
 						<td><img src="http://localhost:9000/mycgv_jsp/images/trash.jpg"></td>

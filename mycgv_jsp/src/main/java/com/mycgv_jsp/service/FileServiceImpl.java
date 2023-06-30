@@ -18,6 +18,7 @@ public class FileServiceImpl {
 	 * multiFileCheck - 멀티파일 체크 기능
 	 */
 	public NoticeVo multiFileCheck(NoticeVo noticeVo) {
+		int count = 1;
 		for(CommonsMultipartFile file : noticeVo.getFiles()) {
 			if(!file.getOriginalFilename().equals("")) {
 				//파일 있음
@@ -26,9 +27,16 @@ public class FileServiceImpl {
 				noticeVo.getNsfiles().add(uuid+"_"+file.getOriginalFilename());
 			} else {
 				//파일 없음
-				noticeVo.getNfiles().add("");
-				noticeVo.getNsfiles().add("");
+				if(count == 1) {
+					noticeVo.getNfiles().add(noticeVo.getNfile1());
+					noticeVo.getNsfiles().add(noticeVo.getNsfile1());
+				} else {
+					noticeVo.getNfiles().add(noticeVo.getNfile2());
+					noticeVo.getNsfiles().add(noticeVo.getNsfile2());
+				}
+				
 			}
+			count++;
 		}//for
 		
 		noticeVo.setNfile1(noticeVo.getNfiles().get(0));
@@ -73,6 +81,28 @@ public class FileServiceImpl {
 		int count = 0;
 		for(CommonsMultipartFile file : noticeVo.getFiles()) { //파일 자체를 서버에 저장해야하기 때문에 arrayList가 아닌 파일 배열로 작업한다
 			if(!file.getOriginalFilename().equals("")) {
+				File deleteFile = new File(root_path + attach_path + oldFileNames.get(count));
+				if(deleteFile.exists()) {
+					deleteFile.delete();
+				}
+			}
+			count++;
+		}
+	}
+	
+	/**
+	 * multiFileDelete 기능 - 게시글 삭제 시 파일을 삭제하는 메소드
+	 */
+	public void multiFileDelete(HttpServletRequest request, ArrayList<String> oldFileNames) 
+														throws Exception{
+		//파일의 삭제위치
+		String root_path = request.getSession().getServletContext().getRealPath("/");
+		String attach_path = "\\resources\\upload\\";
+		
+		//기존 파일 서버에서 삭제
+		int count = 0;
+		for(String oldFileName : oldFileNames) {
+			if(oldFileName != null && !oldFileName.equals("")) {
 				File deleteFile = new File(root_path + attach_path + oldFileNames.get(count));
 				if(deleteFile.exists()) {
 					deleteFile.delete();
